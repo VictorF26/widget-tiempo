@@ -1,14 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import WeatherForm from './weatherForm'
+import WeatherMainInfo from './weatherMainInfo'
 
 function WeatherApp() {
     const [weather, setWeather] = useState(null)
 
     useEffect(() => {
         loadInfo();
-    }, []);
+    }, []); //arreglo vacio => solo cuando se crea el componente
 
-    //arreglo vacio => solo cuando se crea el componente
+    useEffect(() => {
+        document.title = `Weather | ${weather?.location.name ?? ""}`
+    }, [weather]) //cada vez que se actualiza weather
+    // sin arreglo cada vez que se renderize cualquier cosa
 
     function handleChangeCity(city){
         setWeather(null);
@@ -28,7 +32,7 @@ function WeatherApp() {
   return (
     <div>
         <WeatherForm onChangeCity={handleChangeCity} />
-        <div>{weather?.current.temp_c}</div>
+        <WeatherMainInfo weather={weather} />
     </div>
   )
 }
